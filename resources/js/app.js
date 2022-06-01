@@ -13,8 +13,8 @@ import VueAxios from 'vue-axios'
 //Vue packages
 Vue.use(VueAxios, axios);
 
-Vue.component('todo-input', require('./components/input.vue').default);
-Vue.component('todo-table', require('./components/table.vue').default);
+Vue.component('TodoInput', require('./components/input.vue').default);
+Vue.component('TodoTable', require('./components/table.vue').default);
 Vue.component('app', require('./components/app.vue').default);
 
 

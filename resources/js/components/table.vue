@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr v-for="(todo,index) in todos">
+        <tr v-for="(todo,index) in todos" :key=index>
             <th scope="row">{{index+1}}</th>
             <td>{{todo.task}}</td>
             <td>

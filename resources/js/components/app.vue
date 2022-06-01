@@ -2,9 +2,11 @@
 
 <div class="card-wrapper">
      <div class="card">
-            <div class="card-header"></div>
+            <div class="card-header">
+                <TodoInput/>
+            </div>
             <div class="card-body">
-                  <todo-table></todo-table>
+                <TodoTable/>
             </div>
             <div class="card-footer"></div>
     </div>
@@ -14,7 +16,6 @@
 </template>
 <style scoped>
 .card-wrapper{
-    height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -27,6 +28,7 @@
 }
 </style>
 <script>
+
     export default{
         mounted(){
             console.log('Component mounted.');
