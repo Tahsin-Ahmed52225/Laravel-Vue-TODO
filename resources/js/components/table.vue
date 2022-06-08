@@ -8,11 +8,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr v-for="(todo,index) in todos" :key=index>
+        <tr v-for="(todo,index) in allTodo" :key=index>
             <th scope="row">{{index+1}}</th>
             <td>{{todo.task}}</td>
             <td>
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger" @click="deleteTask(todo.id)">Delete</button>
             </td>
 
         </tr>
@@ -24,20 +24,22 @@
 
 <script>
 export default{
+    props:['allTodo'],
     data(){
         return{
-           todos:[],
-           api: "http://localhost:8000/api/todos"
+            deleteApi: "http://localhost:8000/api/todo/delete"
         }
     },
-    mounted(){
-        this.axios.get(this.api).then(response => {
-            this.todos = response.data;
-        })
-    },
-
-
-
+    methods: {
+        deleteTask(e){
+            this.axios.delete(this.deleteApi+"/"+e,{
+            }).then(response => {
+                console.log("Successfully deleted from DB");
+                //emiting the event to the parent component
+                this.$emit('deleteTask',e);
+            })
+        }
+    }
 }
 
 </script>

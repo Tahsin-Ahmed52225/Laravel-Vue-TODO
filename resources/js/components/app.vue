@@ -2,13 +2,13 @@
 
 <div class="card-wrapper">
      <div class="card">
-            <div class="card-header">
-                <TodoInput/>
+            <div class="card-header" >
+
+                <TodoInput @newTask="addNewTask"/>
             </div>
             <div class="card-body">
-                <TodoTable/>
+                <TodoTable :allTodo=allTodo @deleteTask="deleteTask" />
             </div>
-            <div class="card-footer"></div>
     </div>
 
 </div>
@@ -30,8 +30,37 @@
 <script>
 
     export default{
-        mounted(){
-            console.log('Component mounted.');
+        data(){
+            return{
+                newTask:'',
+                allTodo:[],
+            }
+        },
+        methods:{
+            getAllTodo(){
+                this.axios.get('http://localhost:8000/api/todos')
+                .then(response => {
+                    this.allTodo = response.data;
+                    console.log("before");
+                    console.log(this.allTodo);
+                })
+            },
+            addNewTask(e){
+                this.allTodo.push(e);
+                console.log("After Adding New Task");
+                console.log(this.allTodo);
+               // this.getAllTodo();
+            },
+            deleteTask(e){
+                this.allTodo = this.allTodo.filter(todo => todo.id !== e);
+                console.log("After Adding Deleting Task");
+                console.log(this.allTodo);
+               // this.getAllTodo();
+            }
+
+        },
+        created(){
+            this.getAllTodo();
         }
 
     }

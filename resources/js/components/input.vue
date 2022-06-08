@@ -6,34 +6,34 @@
     </div>
   </div>
 </template>
+<style scoped>
+.input-group-text{
+    cursor: pointer;
+}
+</style>
 <script>
 export default{
     data(){
         return{
             InputTask:'',
-            api: "http://localhost:8000/api/todo/create"
+            createApi: "http://localhost:8000/api/todo/create"
         }
     },
     methods: {
         addData(){
-            console.log(this.InputTask);
-            this.axios.post(this.api,{
+            this.axios.post(this.createApi,{
                 todo:{
                   task:this.InputTask,
                   stage:0,
                   }
             }).then(response => {
-                console.log("Success");
+                console.log("Successfully added into DB");
                 this.InputTask = '';
+                //emiting the event to the parent component
+                this.$emit('newTask',response.data);
             })
         }
     },
-    mounted(){
-        this.axios.get(this.api).then(response => {
-            this.todos = response.data;
-        })
-    },
-
     }
 </script>
 
