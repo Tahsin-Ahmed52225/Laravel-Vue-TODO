@@ -83,9 +83,18 @@ class TodoController extends Controller
      * @param  \App\Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Todo $todo)
+    public function update(Request $request, $id)
     {
-        //
+        if($request->isMethod("PUT")){
+            if(Todo::find($id)){
+                $todo = Todo::find($id);
+                $todo->stage = ($todo->stage == 0) ? 1 : 0;
+                $todo->save();
+                return $todo;
+            }else{
+                return "Task not found";
+            }
+        }
     }
 
     /**

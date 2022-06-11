@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th scope="col">#</th>
+            <th></th>
             <th scope="col">Task</th>
             <th scope="col">Action</th>
         </tr>
@@ -10,7 +11,8 @@
     <tbody>
         <tr v-for="(todo,index) in allTodo" :key=index>
             <th scope="row">{{index+1}}</th>
-            <td>{{todo.task}}</td>
+            <td><input type="checkbox" @change="updateTask(todo.id)" v-bind:checked="(todo.stage===0) ? false : true"></td>
+            <td v-bind:style="(todo.stage===1) ? {'text-decoration': 'line-through'} : {'text-decoration': 'none'}">{{todo.task}}</td>
             <td>
                 <button class="btn btn-danger" @click="deleteTask(todo.id)">Delete</button>
             </td>
@@ -22,12 +24,19 @@
 
 </template>
 
+<style scoped>
+.table{
+    align-items: center;
+}
+</style>
+
 <script>
 export default{
     props:['allTodo'],
     data(){
         return{
-            deleteApi: "http://localhost:8000/api/todo/delete"
+            deleteApi: "http://localhost:8000/api/todo/delete",
+            updateApi: "http://localhost:8000/api/todo/update",
         }
     },
     methods: {
@@ -37,6 +46,15 @@ export default{
                 console.log("Successfully deleted from DB");
                 //emiting the event to the parent component
                 this.$emit('deleteTask',e);
+            })
+        },
+        updateTask(e){
+            this.axios.put(this.updateApi+"/"+e,{
+            }).then(response => {
+                console.log("Successfully updated in DB");
+                console.log(response.data);
+                //emiting the event to the parent component
+                this.$emit('updateTask',response.data);
             })
         }
     }

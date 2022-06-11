@@ -7,7 +7,7 @@
                 <TodoInput @newTask="addNewTask"/>
             </div>
             <div class="card-body">
-                <TodoTable :allTodo=allTodo @deleteTask="deleteTask" />
+                <TodoTable :allTodo=allTodo @deleteTask="deleteTask" @updateTask="updateTask" />
             </div>
     </div>
 
@@ -41,21 +41,21 @@
                 this.axios.get('http://localhost:8000/api/todos')
                 .then(response => {
                     this.allTodo = response.data;
-                    console.log("before");
-                    console.log(this.allTodo);
                 })
             },
             addNewTask(e){
-                this.allTodo.push(e);
-                console.log("After Adding New Task");
-                console.log(this.allTodo);
-               // this.getAllTodo();
+                this.allTodo.unshift(e);
             },
             deleteTask(e){
                 this.allTodo = this.allTodo.filter(todo => todo.id !== e);
-                console.log("After Adding Deleting Task");
-                console.log(this.allTodo);
-               // this.getAllTodo();
+            },
+            updateTask(e){
+                this.allTodo = this.allTodo.map(todo => {
+                    if(todo.id === e.id){
+                        todo.stage = e.stage;
+                    }
+                    return todo;
+                });
             }
 
         },

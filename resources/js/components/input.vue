@@ -1,6 +1,6 @@
 <template>
   <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Enter your task" v-model="InputTask">
+    <input type="text" class="form-control" placeholder="Enter your task" v-model="InputTask" @keyup.enter="addData">
     <div class="input-group-append">
       <span @click="addData" class="input-group-text">Add Task</span>
     </div>
@@ -27,7 +27,6 @@ export default{
                   stage:0,
                   }
             }).then(response => {
-                console.log("Successfully added into DB");
                 this.InputTask = '';
                 //emiting the event to the parent component
                 this.$emit('newTask',response.data);
